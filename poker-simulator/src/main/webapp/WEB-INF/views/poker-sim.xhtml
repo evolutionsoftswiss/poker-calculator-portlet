@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:ace="http://www.icefaces.org/icefaces/components"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+  <h:head>   
+    <h:outputStylesheet library="css" name="portlet-override.css"/> 
+  </h:head>
+  
+  <h:body>
+    
+    <ace:panel>
+    
+    <h:form id="menuForm" > 
+      <ace:panel styleClass="innerPanelNoBorder">
+        <ui:include src="./menu.xhtml">
+          <ui:param name="calculator" value="#{calculator}"/>
+        </ui:include>
+      </ace:panel>
+      <ace:panel rendered="#{calculator.playerResults != null and not calculator.highLow}" styleClass="innerPanelNoBorder">
+        <ui:include src="./resultHigh.xhtml">
+          <ui:param name="calculator" value="#{calculator}"/>
+        </ui:include>
+      </ace:panel>
+      <ace:panel rendered="#{calculator.playerResults != null and calculator.highLow}"  styleClass="innerPanelNoBorder">
+        <ui:include src="./resultHighLow.xhtml">
+          <ui:param name="calculator" value="#{calculator}"/>
+        </ui:include>
+      </ace:panel>
+    </h:form>
+
+    <h:form id="inputForm"> 
+      <ace:panel styleClass="innerPanelNoBorder">
+        <ui:include src="./input.xhtml">
+          <ui:param name="calculator" value="#{calculator}"/>
+        </ui:include>
+      </ace:panel>
+    </h:form>
+
+    <h:form id="cardsForm"> 
+      <ace:panel styleClass="innerPanelNoBorder">
+        <ui:include src="./cards.xhtml">
+          <ui:param name="calculator" value="#{calculator}"/>
+        </ui:include>
+      </ace:panel>
+    </h:form>
+
+  </ace:panel>
+
+  </h:body>
+
+</f:view>
