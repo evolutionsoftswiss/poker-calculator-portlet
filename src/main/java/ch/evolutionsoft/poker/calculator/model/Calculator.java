@@ -91,15 +91,12 @@ public class Calculator implements Serializable {
 	void clearMessages() {
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		Iterator<String> clientIdsWithMessages = facesContext.getClientIdsWithMessages();
 
-		while (clientIdsWithMessages.hasNext()) {
+		Iterator<FacesMessage> messagesIterator = facesContext.getMessages();
+		while (messagesIterator.hasNext()) {
 
-			List<FacesMessage> messageList = facesContext.getMessageList(clientIdsWithMessages.next());
-
-			if (!messageList.isEmpty()) {
-				messageList.clear();
-			}
+			messagesIterator.next();
+			messagesIterator.remove();
 		}
 	}
 

@@ -7,7 +7,7 @@ import org.apache.tomcat.jni.Library;
 
 public class PokersourceLibraryLoader {
 
-	static boolean initialized = true;
+	static boolean initialized = false;
 
 	public synchronized static void init() {
 
