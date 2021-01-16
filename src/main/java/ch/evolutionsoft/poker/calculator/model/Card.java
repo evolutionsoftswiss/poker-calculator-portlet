@@ -142,9 +142,10 @@ public class Card implements Serializable {
 			isValid = false;
 			this.setValue(null);
 			FacesMessage msg = new FacesMessage("Invalid Card value: " + cardValue);
-			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(validate.getClientId(context), msg);
+			msg.setSeverity(FacesMessage.SEVERITY_WARN);
+			context.addMessage(validate.getClientId(), msg);
 		}
+		
 		((UIInput) validate).setValid(isValid);
 	}
 

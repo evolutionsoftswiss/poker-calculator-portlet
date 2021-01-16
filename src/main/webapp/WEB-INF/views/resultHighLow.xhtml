@@ -5,12 +5,12 @@
 
   <ui:composition>
     <h:outputText value="Enumerated Boards: #{calculator.totalSimulatedHands} with #{calculator.totalLowHands} (#{calculator.lowHandsPercentage}%) Low" style="font-size: medium" />
-    <ace:dataTable width="100%" var="results" varStatus="status" value="#{calculator.playerResults}">     
+    <ace:dataTable width="100%" var="results" value="#{calculator.playerResults}" rowIndexVar="status" >     
       <ace:column>
         <f:facet name="header">
           <h:outputText style="font-size: medium" value="Player# / Hand"/>
         </f:facet>  
-        <h:outputText style="font-size: medium; text-align: center" value="#{status.index + 1} / #{results[8]}" />
+        <h:outputText style="font-size: medium; text-align: center" value="#{status + 1} / #{results[8]}" />
       </ace:column>       
       <ace:column>
         <f:facet name="header">

@@ -19,19 +19,15 @@
       <f:ajax render="menuForm inputForm cardsForm" />
     </h:commandButton>
 
-    <h:commandButton action="#{calculator.init}" value="Clear All" >
-      <f:ajax render="inputForm menuForm cardsForm" /> 
-    </h:commandButton>
+    <h:commandButton action="#{calculator.clearAll}" value="Clear All" />
     
     <h:commandButton action="#{calculator.clearResult}" value="Clear Result" >
-      <f:ajax render="menuForm inputForm menuForm" />
+      <f:ajax render="menuForm inputForm menuForm messages" type="reset" />
     </h:commandButton>
 
-    <h:commandButton action="#{calculator.calculate}" value="Calculate" tabindex="300" >
-      <f:ajax render="menuForm" />
-    </h:commandButton>
+    <h:commandButton action="#{calculator.calculate}" value="Calculate" tabindex="300" />
     
-    <ace:messages layout="table" />
+    <h:messages layout="table" />
     
   </ui:composition>
 

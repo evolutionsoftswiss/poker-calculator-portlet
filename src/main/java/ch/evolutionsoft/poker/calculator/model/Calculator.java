@@ -1,24 +1,25 @@
 package ch.evolutionsoft.poker.calculator.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+import javax.portlet.PortletRequest;
 
 import org.pokersource.enumerate.Enumerate;
 import org.pokersource.game.Deck;
@@ -27,6 +28,8 @@ import ch.evolutionsoft.poker.calculator.model.PlayerHand;
 import ch.evolutionsoft.poker.calculator.util.PokersourceLibraryLoader;
 
 import static ch.evolutionsoft.poker.calculator.model.CalculatorConstants.*;
+
+import com.liferay.portal.kernel.util.PortalUtil;
 
 @ManagedBean(name = "calculator", eager = true)
 @SessionScoped
@@ -73,34 +76,26 @@ public class Calculator implements Serializable {
 	private String selectedGameType = Integer.toString(Enumerate.GAME_OMAHA);
 
 	public Calculator() {
-
+		this.init();
 	}
 
-	@PostConstruct
 	public void init() {
 
 		this.clearResult();
 
 		this.initPlayers();
 		this.initBoard();
-		this.initCardPaths();
-
-		clearMessages();
+		this.updateCardPaths();
 	}
 
-	void clearMessages() {
+	public String clearAll() throws IOException {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-
-		Iterator<FacesMessage> messagesIterator = facesContext.getMessages();
-		while (messagesIterator.hasNext()) {
-
-			messagesIterator.next();
-			messagesIterator.remove();
-		}
+		this.init();
+		
+		return redirectToCurrentPage();
 	}
-
-	public void calculate() {
+	
+	public String calculate() {
 
 		this.result = null;
 
@@ -116,7 +111,7 @@ public class Calculator implements Serializable {
 			FacesMessage facesMessage = new FacesMessage("Card(s) " + doubledCards.toString() + " used more than once");
 			facesMessage.setSeverity(FacesMessage.SEVERITY_WARN);
 			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-			return;
+			return "failure";
 		}
 
 		for (int i = 0; i < this.hands.size(); i++) {
@@ -128,7 +123,7 @@ public class Calculator implements Serializable {
 				facesMessage.setSeverity(FacesMessage.SEVERITY_WARN);
 				FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
-				return;
+				return "failure";
 
 			} else {
 
@@ -142,10 +137,10 @@ public class Calculator implements Serializable {
 			facesMessage.setSeverity(FacesMessage.SEVERITY_WARN);
 			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 
-			return;
+			return "failure";
 		}
 
-		for (int i = 0; i < this.hands.size(); i++) {
+		for (int i = 0; i < numberOfValidHands; i++) {
 
 			PlayerHand currentHand = this.hands.get(i);
 
@@ -173,7 +168,7 @@ public class Calculator implements Serializable {
 
 			FacesContext.getCurrentInstance().addMessage(null,
 			    new FacesMessage("Board has invalid number of cards, supported are 0, 3, 4 or 5 cards"));
-			return;
+			return "failure";
 		}
 
 		try {
@@ -184,12 +179,14 @@ public class Calculator implements Serializable {
 
 			boolean isHiLow = this.isHighLow();
 			this.result = new Result(orderKeys[0], orderValues[0], evValues, validHandsStrings, isHiLow);
+			return this.redirectToCurrentPage();
 
 		} catch (UnsatisfiedLinkError ule) {
 
 			FacesMessage msg = new FacesMessage("Calculator Engine currently unavaliable, please try again later.");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "failure";
 
 		} catch (Exception ex) {
 
@@ -198,6 +195,7 @@ public class Calculator implements Serializable {
 			        + Arrays.toString(longPockets) + "board: " + this.board + "longBoardValue: " + longBoardValue);
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "failure";
 		}
 	}
 
@@ -223,37 +221,6 @@ public class Calculator implements Serializable {
 			String cardValue = path.substring(indexOfCardValueBegin, indexOfCardValueBegin + 2);
 
 			updateAvailableCards(cardValue);
-		}
-	}
-
-	void updateAvailableCards(String cardValue) {
-
-		for (PlayerHand hand : this.hands) {
-
-			for (Card card : hand.getCards()) {
-
-				if (card.getValue() == null) {
-
-					card.setValue(cardValue);
-
-					this.updateCardPaths();
-
-					return;
-				}
-			}
-
-		}
-
-		for (Card card : this.board.getCards()) {
-
-			if (card.getValue() == null) {
-
-				card.setValue(cardValue);
-
-				this.updateCardPaths();
-
-				return;
-			}
 		}
 	}
 
@@ -300,7 +267,6 @@ public class Calculator implements Serializable {
 	public void clearResult() {
 
 		this.result = null;
-		clearMessages();
 	}
 
 	public String getSelectedGameType() {
@@ -406,7 +372,50 @@ public class Calculator implements Serializable {
 		}
 	}
 
-	private List<List<String>> highLowResult() {
+	void updateAvailableCards(String cardValue) {
+
+		for (PlayerHand hand : this.hands) {
+
+			for (Card card : hand.getCards()) {
+
+				if (card.getValue() == null) {
+
+					card.setValue(cardValue);
+
+					this.updateCardPaths();
+
+					return;
+				}
+			}
+
+		}
+
+		for (Card card : this.board.getCards()) {
+
+			if (card.getValue() == null) {
+
+				card.setValue(cardValue);
+
+				this.updateCardPaths();
+
+				return;
+			}
+		}
+	}
+
+	String redirectToCurrentPage() throws IOException {
+
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		PortletRequest portletRequest =
+				(PortletRequest) externalContext.getRequestMap().get("javax.portlet.request");
+		
+		String currentUrl = PortalUtil.getCurrentURL(portletRequest);
+		externalContext.redirect(currentUrl.substring(0, currentUrl.indexOf('?')));
+		
+		return "success";
+	}
+
+	List<List<String>> highLowResult() {
 
 		List<List<String>> results = new ArrayList<List<String>>();
 
@@ -465,7 +474,7 @@ public class Calculator implements Serializable {
 		return results;
 	}
 
-	private List<List<String>> initHighResult() {
+	List<List<String>> initHighResult() {
 		List<List<String>> results = new ArrayList<List<String>>();
 
 		int numberOfEvaluatedPlayers = this.result.getEVValues().size();
@@ -566,25 +575,14 @@ public class Calculator implements Serializable {
 		return false;
 	}
 
-	private void initPlayers() {
+	void initPlayers() {
 
 		this.hands = new LinkedList<>();
 		this.hands.add(new PlayerHand(this.numberOfHoleCards));
 		this.hands.add(new PlayerHand(this.numberOfHoleCards));
 	}
 
-	private void clearPlayers() {
-
-		for (PlayerHand hand : this.hands) {
-
-			for (Card card : hand.getCards()) {
-
-				card.setValue(null);
-			}
-		}
-	}
-
-	private void initBoard() {
+	void initBoard() {
 
 		this.board = new Board();
 
@@ -594,7 +592,7 @@ public class Calculator implements Serializable {
 		}
 	}
 
-	protected void updateCardPaths() {
+	void updateCardPaths() {
 
 		List<List<String>> allCardValues = Card.getAllCardValues();
 		this.cardPaths.clear();
@@ -617,7 +615,7 @@ public class Calculator implements Serializable {
 		}
 	}
 
-	protected void initCardPaths() {
+	void initCardPaths() {
 
 		List<List<String>> allCardValues = Card.getAllCardValues();
 		this.cardPaths.clear();

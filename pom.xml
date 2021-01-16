@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.evolutionsoft.poker.calucator</groupId>
-	<artifactId>poker-calculator-portlet</artifactId>
+	<artifactId>poker-calculator</artifactId>
 	<packaging>war</packaging>
-	<name>poker-simulator</name>
+	<name>poker-calculator</name>
 	<version>1.0.0</version>
 
 	<build>
@@ -28,6 +28,7 @@
 				<version>2.3</version>
 				<configuration>
 					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+					<warName>poker-calculator</warName>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -72,6 +73,27 @@
 		<dependency>
 			<groupId>org.icefaces</groupId>
 			<artifactId>icefaces-ace</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+				
+		<dependency>
+		    <groupId>javax.portlet</groupId>
+		    <artifactId>portlet-api</artifactId>
+		    <version>3.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.liferay.portal</groupId>
+		    <artifactId>com.liferay.portal.kernel</artifactId>
+		    <version>9.19.0</version>
+		    <scope>provided</scope>
 		</dependency>
 	
 		<dependency>
