@@ -179,7 +179,7 @@ public class Calculator implements Serializable {
 
 			boolean isHiLow = this.isHighLow();
 			this.result = new Result(orderKeys[0], orderValues[0], evValues, validHandsStrings, isHiLow);
-			return this.redirectToCurrentPage();
+			return "success";
 
 		} catch (UnsatisfiedLinkError ule) {
 

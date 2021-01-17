@@ -25,7 +25,9 @@
       <f:ajax render="menuForm inputForm menuForm messages" type="reset" />
     </h:commandButton>
 
-    <h:commandButton action="#{calculator.calculate}" value="Calculate" tabindex="300" />
+    <h:commandButton action="#{calculator.calculate}" value="Calculate" tabindex="300" >
+      <f:ajax render="menuForm inputForm" />
+    </h:commandButton>
     
     <h:messages layout="table" />
     
