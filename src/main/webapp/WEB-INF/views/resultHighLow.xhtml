@@ -1,0 +1,66 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+           xmlns:ace="http://www.icefaces.org/icefaces/components"
+           xmlns:ui="http://java.sun.com/jsf/facelets"
+           xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+  <ui:composition>
+    <h:outputText value="Enumerated Boards: #{calculator.totalSimulatedHands} with #{calculator.totalLowHands} (#{calculator.lowHandsPercentage}%) Low" style="font-size: medium" />
+    <ace:dataTable width="100%" var="results" value="#{calculator.playerResults}" rowIndexVar="status" >     
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="Player# / Hand"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{status + 1} / #{results[8]}" />
+      </ace:column>       
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Scoops"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[0]}" />
+      </ace:column>       
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Win Hi"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[1]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Lose Hi"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[2]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Tie Hi"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[3]}" />
+      </ace:column>        
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Win Low"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[4]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Lose Low"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[5]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Tie Low"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[6]}" />
+      </ace:column>  
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="EV"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[7]}" />
+      </ace:column>
+    </ace:dataTable>
+  </ui:composition>     
+
+</f:subview>

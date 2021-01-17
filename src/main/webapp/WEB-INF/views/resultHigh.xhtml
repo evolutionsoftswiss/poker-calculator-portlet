@@ -1,0 +1,41 @@
+<f:subview xmlns:f="http://xmlns.jcp.org/jsf/core"
+           xmlns:ace="http://www.icefaces.org/icefaces/components"
+           xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+           xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+  <ui:composition>
+    <h:outputText value="Enumerated Boards: #{calculator.totalSimulatedHands}" style="font-size: medium" />
+    <ace:dataTable width="100%" var="results" value="#{calculator.playerResults}" rowIndexVar="status" >     
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="Player# / Hand"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{status + 1} / #{results[4]}" />
+      </ace:column>      
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Win"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[0]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Lose"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[1]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="% Tie"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[2]}" />
+      </ace:column>    
+      <ace:column>
+        <f:facet name="header">
+          <h:outputText style="font-size: medium" value="EV"/>
+        </f:facet>  
+        <h:outputText style="font-size: medium; text-align: center" value="#{results[3]}" />
+      </ace:column>
+    </ace:dataTable>
+  </ui:composition>     
+</f:subview>

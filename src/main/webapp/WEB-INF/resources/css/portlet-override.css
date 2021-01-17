@@ -1,0 +1,16 @@
+.innerPanelNoBorder {
+	border-width: 0;
+}
+
+.boardPanel {
+	padding-top: 20px;
+}
+
+.bigCardImage {
+	width: 90%;	
+}
+
+.smallCardImage {
+	width: 40px;
+	margin: 2px 2px;	
+}
