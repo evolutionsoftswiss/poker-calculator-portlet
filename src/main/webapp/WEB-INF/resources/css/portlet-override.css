@@ -7,10 +7,16 @@
 }
 
 .bigCardImage {
-	width: 90%;	
+	width: 100%;	
 }
 
 .smallCardImage {
 	width: 40px;
 	margin: 2px 2px;	
+}
+
+@media screen and (max-width: 768px) {
+
+	.content-desktop {display: none;}
+
 }

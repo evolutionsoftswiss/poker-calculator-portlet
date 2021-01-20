@@ -21,7 +21,7 @@ public class Card implements Serializable {
 	private static final String[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K" };
 
 	private static final String[] suits = { "s", "h", "d", "c" };
-
+	
 	private static Map<String, String> validCards;
 	static {
 
@@ -34,7 +34,10 @@ public class Card implements Serializable {
 			}
 		}
 	}
+
 	public static final String EMPTY_IMAGE_PATH = "images/emptycard.png";
+
+	private Calculator calculator;
 
 	private String value;
 	private String imagePath = EMPTY_IMAGE_PATH;
@@ -54,7 +57,10 @@ public class Card implements Serializable {
 
 	public void valueChange(ValueChangeEvent valueChangeEvent) {
 
-		this.setValue(String.valueOf(valueChangeEvent.getNewValue()));
+		String cardValue = String.valueOf(valueChangeEvent.getNewValue());
+		this.setValue(cardValue);
+		
+		calculator.updateCardPaths();
 	}
 
 	public void setValue(String value) {
@@ -182,5 +188,13 @@ public class Card implements Serializable {
 	public int hashCode() {
 
 		return 0;
+	}
+	
+	public Calculator getCalculator() {
+		return calculator;
+	}
+
+	public void setCalculator(Calculator calculator) {
+		this.calculator = calculator;
 	}
 }

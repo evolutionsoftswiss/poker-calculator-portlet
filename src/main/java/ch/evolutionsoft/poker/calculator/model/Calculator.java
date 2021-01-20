@@ -252,7 +252,7 @@ public class Calculator implements Serializable {
 	public void addPlayer() {
 
 		if (this.hands.size() < MAX_PLAYER_SIZE) {
-			this.hands.add(new PlayerHand(this.numberOfHoleCards));
+			this.hands.add(new PlayerHand(this, this.numberOfHoleCards));
 		}
 	}
 
@@ -578,8 +578,8 @@ public class Calculator implements Serializable {
 	void initPlayers() {
 
 		this.hands = new LinkedList<>();
-		this.hands.add(new PlayerHand(this.numberOfHoleCards));
-		this.hands.add(new PlayerHand(this.numberOfHoleCards));
+		this.hands.add(new PlayerHand(this, this.numberOfHoleCards));
+		this.hands.add(new PlayerHand(this, this.numberOfHoleCards));
 	}
 
 	void initBoard() {
@@ -589,6 +589,7 @@ public class Calculator implements Serializable {
 		for (Card card : this.board.getCards()) {
 
 			card.setValue(null);
+			card.setCalculator(this);
 		}
 	}
 
