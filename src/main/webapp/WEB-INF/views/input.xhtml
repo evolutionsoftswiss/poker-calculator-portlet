@@ -9,6 +9,7 @@
     <h:panelGrid columns="3">
     <c:forEach var="hand" items="#{calculator.hands}" varStatus="playerStatus" >
       <ace:panel>
+      <h:outputLabel for="player" value="Player #{playerStatus.index + 1}"/>
       <c:forEach id="player" var="card" items="#{hand.cards}" varStatus="cardStatus" >
         <h:commandLink action="#{calculator.removePlayerCard}" >
           <f:ajax render="menuForm inputForm cardsForm" />
@@ -17,11 +18,11 @@
           <h:graphicImage name="#{card.imagePath}" styleClass="smallCardImage" />
         </h:commandLink>
       </c:forEach>
-      <h:outputLabel for="player" value="Player #{playerStatus.index + 1}"/>
       <c:forEach var="card" items="#{hand.cards}" varStatus="cardStatus">
             <h:inputText value="#{card.value}" validator="#{card.validate}" 
                            valueChangeListener="#{card.valueChange}" size="2"
-                           tabindex="#{(playerStatus.index + 1) * 4 + cardStatus.index}">
+                           tabindex="#{(playerStatus.index + 1) * 4 + cardStatus.index}"
+                           styleClass="content-desktop">
                <f:ajax render="menuForm inputForm cardsForm" />
             </h:inputText>
       </c:forEach>
@@ -31,6 +32,7 @@
 
     <h:panelGrid columns="1" styleClass="boardPanel">
     <ace:panel>
+    <h:outputLabel for="board" value="Board"/>
     <c:forEach var="card" items="#{calculator.boardCards}" varStatus="boardStatus">
        <h:commandLink action="#{calculator.removeBoardCard}" >
           <f:ajax render="menuForm inputForm cardsForm" />
@@ -38,11 +40,11 @@
          <h:graphicImage name="#{card.imagePath}" styleClass="smallCardImage" />
       </h:commandLink>
     </c:forEach>
-    <h:outputLabel for="board" value="Board"/>
     <c:forEach id="board" var="card" items="#{calculator.boardCards}">
       <h:inputText id="boardCard" validator="#{card.validate}" value="#{card.value}" 
                      valueChangeListener="#{card.valueChange}" size="2"
-                     tabindex="#{100 + boardStatus.index}">
+                     tabindex="#{100 + boardStatus.index}"
+                     styleClass="content-desktop">
         <f:ajax render="menuForm inputForm cardsForm" />
       </h:inputText>
     </c:forEach>

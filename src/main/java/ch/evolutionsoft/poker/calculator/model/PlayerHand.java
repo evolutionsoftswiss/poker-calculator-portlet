@@ -10,11 +10,12 @@ public class PlayerHand implements Serializable{
 
 	private Card[] hand;
 	
-	public PlayerHand(int numberOfHoleCards) {
+	public PlayerHand(Calculator calculator, int numberOfHoleCards) {
 
 		this.hand = new Card[numberOfHoleCards];
 		for (int index = 0; index < this.hand.length; index++) {
 			this.hand[index] = new Card();
+			this.hand[index].setCalculator(calculator);
 		}
 	}
 
