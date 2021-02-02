@@ -4,7 +4,6 @@
 <liferay-portlet-app>
 	<portlet>
 		<portlet-name>poker-calculator</portlet-name>
-		<icon>/resources/images/icon.png</icon>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<ajaxable>true</ajaxable>
 	</portlet>
