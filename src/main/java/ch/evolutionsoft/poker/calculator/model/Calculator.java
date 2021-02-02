@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -32,7 +33,7 @@ import static ch.evolutionsoft.poker.calculator.model.CalculatorConstants.*;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @ManagedBean(name = "calculator", eager = true)
-@SessionScoped
+@ViewScoped
 public class Calculator implements Serializable {
 
 	private static final long serialVersionUID = 6369666854255203618L;
@@ -75,10 +76,7 @@ public class Calculator implements Serializable {
 	private int numberOfHoleCards = 4;
 	private String selectedGameType = Integer.toString(Enumerate.GAME_OMAHA);
 
-	public Calculator() {
-		this.init();
-	}
-
+	@PostConstruct
 	public void init() {
 
 		this.clearResult();
