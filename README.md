@@ -3,7 +3,7 @@
 Poker Calculator is a JSF Icefaces Portlet designed for Liferay.
 It supports Poker hand evaluation for up to seven players with known hole cards in Omaha, Omaha Hi/Lo and Texas Hold'em.
 
-You can find a running version here: [https://evolutionsoft.ch/liferay/](https://evolutionsoft.ch/liferay/web/guest/poker)
+You can find a running version here: [https://evolutionsoft.ch/](https://evolutionsoft.ch/poker-calculator)
 
 ## License
 
